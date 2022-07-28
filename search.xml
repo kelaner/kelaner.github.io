@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>React Hook，便捷且功能强大</title>
+      <link href="2022/07/28/hook/"/>
+      <url>2022/07/28/hook/</url>
+      
+        <content type="html"><![CDATA[<h2 id="useState基础使用"><a href="#useState基础使用" class="headerlink" title="useState基础使用"></a>useState基础使用</h2><ul><li>1.导入<code>useState</code>函数  <code>react</code></li><li>2.执行这个函数并且传入初始值必须在函数组件中</li><li>3.[数据，修改数据的方法]</li><li>4.使用数据修改数据</li></ul><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;useState&#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//累加运算</span></span><br><span class="line">    <span class="keyword">const</span> [count,setCount] = useState (<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span>(</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;button onclick=&#123;()=setCount (count + <span class="number">1</span>)&#125;&gt;&#123;count&#125;&lt;/button&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="useState状态的读取和修改"><a href="#useState状态的读取和修改" class="headerlink" title="useState状态的读取和修改"></a>useState状态的读取和修改</h2><blockquote><p>const [count,setCount] = useState(0)</p></blockquote><ul><li>1,<code>useState</code>传过来的参数,作为<code>count</code>的初始值</li><li>2.[count,setCount]    这里的写法是一个<code>解构赋值</code><br><code>useState</code>返回值是一个数组<ul><li>名字可以自定义吗？-&gt;可以自定义保持语义化</li><li>顺序可以换吗？-&gt;不可以的    第一参数就是数据状态,第二个参数就是修改数据的方法</li></ul></li><li>3.<code>setCount</code>函数  作用:用来修改count,依旧保持不能直接修改原值还是生成一个新值替换原值<ul><li><code>setCount</code>(基于原值计算得到的新值)</li></ul></li><li>4.<code>count</code>和<code>setCount</code>是一对是绑在一起的<code>setCount</code>只能用来修改对应的<code>count</code>值</li></ul><h2 id="useState组件更新过程"><a href="#useState组件更新过程" class="headerlink" title="useState组件更新过程"></a>useState组件更新过程</h2><p>组件的更新 - 当调用<code>setCount</code>的时候更新过程</p><blockquote><p>首次渲染</p></blockquote><ul><li>首次被渲染的时候组件内部的代码会被执行一次</li><li>其中<code>useState</code>也会跟着执行这里重点注意<code>初始值只在首次渲染时生效</code></li></ul><blockquote><p>更新渲染  //setCount都会更新</p></blockquote><ul><li>App组件会再次渲染这个函数会再次执行</li><li><code>useState</code>再次执行得到的新的<code>count</code>值不是0而是修改之后的1模板会用新值渲染</li></ul><blockquote><p>重点一句话：</p></blockquote><ul><li><code>useState</code>初始值只在首次渲染生效,后续只要调用<code>setCount</code>,整个app中代码都会执行,此时的<code>count</code>每次拿到的都是最新值</li></ul><h2 id="useState注意事项"><a href="#useState注意事项" class="headerlink" title="useState注意事项"></a>useState注意事项</h2><ul><li><p>1.只能出现在函数组件中</p></li><li><p>2.<strong>不能嵌套在if/for/其它函数中</strong>(react按照hooks的调用顺序识别每一个hook)</p>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> num <span class="number">1</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">List</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    num++</span><br><span class="line">    <span class="keyword">if</span>(num/<span class="number">2</span>==<span class="number">6</span>)&#123;</span><br><span class="line">    <span class="keyword">const</span>[name,setName]=useState(<span class="string">&quot;cp&#x27;)</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">    const [list,setList]useState([])</span></span><br><span class="line"><span class="string">//俩个hook的顺序不是固定的，这是不可以的！！！</span></span><br></pre></td></tr></table></figure></li><li><p>3.可以通过开发者工具查看hooks状态</p></li></ul><h2 id="useEffect-“定义副作用”"><a href="#useEffect-“定义副作用”" class="headerlink" title="useEffect “定义副作用”"></a>useEffect “定义副作用”</h2><blockquote><p>这个hook可以代替类组件中的生命周期函数</p></blockquote><blockquote><p>依赖项控刺副作用的执行时机</p></blockquote><ul><li>1.默认状态（无依赖项）<br>组件初始化的时候先执行一次等到每次数据修改组件更新再次执行</li><li>2.添加一个空数组依赖项<br>组件初始化的时候执行一次  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useEffect(<span class="function">() =&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;副作用执行了&quot;)</span></span><br><span class="line"><span class="string">&#125;,[])</span></span><br></pre></td></tr></table></figure></li><li>3.添加特定依赖项<blockquote><p>组件初始化的时候执行一次依赖的特定项发生变化会再次执行</p></blockquote></li></ul><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span>[count,setCount]=useState(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">const</span> [name,setName]useState(<span class="string">&#x27;zs&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    useEffect(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;副作用执行了&#x27;</span>)</span><br><span class="line">    &#125;,[count])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>(</span><br><span class="line">        &lt;&gt;</span><br><span class="line">        &lt;button onClick=<span class="function">()=&gt;</span>&#123;setCount(count <span class="number">1</span>)&#125;&#125;&gt;&#123;count)&lt;/button&gt;</span><br><span class="line">        &lt;button onClick=<span class="function">()=&gt;</span>&#123;setName(<span class="string">&#x27;cp&#x27;</span>)&#125;&#125;&gt;&#123;name&#125;&lt;/button&gt;</span><br><span class="line">        &lt;/&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><code>注意事项</code><br>useEffect回调函数中用到的数据（比如，count)就是依赖数据，就应该出现在依赖项数组中，如果不添加依赖项就会有bug出现</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> React </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 前端 </tag>
+            
+            <tag> React </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>基于anaconda3+pycharm搭建tensorflow-gpu环境（win10)</title>
+      <link href="2022/07/18/%E5%9F%BA%E4%BA%8Eanaconda3+pycharm%E6%90%AD%E5%BB%BAtensorflow-gpu%E7%8E%AF%E5%A2%83/"/>
+      <url>2022/07/18/%E5%9F%BA%E4%BA%8Eanaconda3+pycharm%E6%90%AD%E5%BB%BAtensorflow-gpu%E7%8E%AF%E5%A2%83/</url>
+      
+        <content type="html"><![CDATA[<p>开始进行学习<code>tensorflow</code>库的深度学习的一些知识，把安装和环境配置的过程留下记录</p><blockquote><p>查看笔记本的显卡驱动和算力等就不在此赘述了</p></blockquote><h3 id="安装anaconda"><a href="#安装anaconda" class="headerlink" title="安装anaconda"></a>安装anaconda</h3><blockquote><p>官网：<a href="https://www.anaconda.com/">https://www.anaconda.com/</a></p></blockquote><p>安装时注意选择的版本、安装路径、勾选PATH即可，我这里安装的是<code>ana3-2019.03</code>版的</p><h3 id="安装tensorflow"><a href="#安装tensorflow" class="headerlink" title="安装tensorflow"></a>安装tensorflow</h3><p>注意如果之前电脑上如果安装过<code>python</code>，终端输入<code>pip</code>指令一般不会下载到anaconda中，强烈建议打开<code>Anaconda Powershell Prompt</code>界面</p><p><img src="/2022/07/18/%E5%9F%BA%E4%BA%8Eanaconda3+pycharm%E6%90%AD%E5%BB%BAtensorflow-gpu%E7%8E%AF%E5%A2%83/7be729582bb09396398b4f4b9e2bbb3b558d6a74b8da0a452193337ed48a75d2.png" alt="图 1">  </p><p>打开后，输入指令</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;Tensorflow&#x3D; 2.0.0表示是下载的版本</span><br><span class="line">&#x2F;&#x2F;-i https:&#x2F;&#x2F;pypi.tuna.tsinghua.edu.cn&#x2F;simple表示镜像源的选择(加速下载)</span><br><span class="line">pip install tensorflow-gpu&#x3D;&#x3D;2.0.0 -i https:&#x2F;&#x2F;pypi.tuna.tsinghua.edu.cn&#x2F;simple</span><br></pre></td></tr></table></figure><p>打开cmd输入<code>conda list</code>,找到tensorflow-gpu</p><p><img src="/2022/07/18/%E5%9F%BA%E4%BA%8Eanaconda3+pycharm%E6%90%AD%E5%BB%BAtensorflow-gpu%E7%8E%AF%E5%A2%83/3b412e355ed173a1929bdb0f3341fba859a65f195519936c8c5ceff988b22204.png" alt="图 3">  </p><p>yes，搞定！</p><h3 id="安装cuda和cudnn"><a href="#安装cuda和cudnn" class="headerlink" title="安装cuda和cudnn"></a>安装cuda和cudnn</h3><p>首先直接到官网找版本下载包，cudnn下载需要注册一个账号(不麻烦)</p><blockquote><p>cuda:<a href="https://developer.nvidia.com/cuda-toolkit-archive">https://developer.nvidia.com/cuda-toolkit-archive</a></p></blockquote><blockquote><p>cudnn:<a href="https://developer.nvidia.com/rdp/cudnn-archive">https://developer.nvidia.com/rdp/cudnn-archive</a></p></blockquote><p>我前边安装的是2.0.0版本的tensorflow，需要下载对应的适配版本,这里我下载的是：<br>cuda_10.0.130_411.31_win10.exe<br>cudnn-win10-x64-v7.5.0.56.zip</p><p>cuda安装，cudnn解压打开有一个coda的文件夹，修改其名字为cudnn，直接移动到cuda下载路径</p><p><img src="/2022/07/18/%E5%9F%BA%E4%BA%8Eanaconda3+pycharm%E6%90%AD%E5%BB%BAtensorflow-gpu%E7%8E%AF%E5%A2%83/21344f14f7d2b6c9485e89ad85f0573924cffe2fad76323068c6c421341c2f2d.png" alt="图 6">  </p><p>然后按照下图添加环境变量：<br><img src="/2022/07/18/%E5%9F%BA%E4%BA%8Eanaconda3+pycharm%E6%90%AD%E5%BB%BAtensorflow-gpu%E7%8E%AF%E5%A2%83/e80264baf16a6417656944b3e4ced7463b3faa793193906089758332ca33f234.png" alt="图 7">  </p><h3 id="安装pycharm"><a href="#安装pycharm" class="headerlink" title="安装pycharm"></a>安装pycharm</h3><p><code>pycharm</code>有的老版本插件不太全（包括中文插件），所以直接建议直接到官网下载最新版，省心</p><p>下载安装后打开，选择新建项目，如图操作</p><p><img src="/2022/07/18/%E5%9F%BA%E4%BA%8Eanaconda3+pycharm%E6%90%AD%E5%BB%BAtensorflow-gpu%E7%8E%AF%E5%A2%83/bf6e1ec8596ef2dae374d32e6c3ea20723093ebae0155c4498ab5a0af6440438.png" alt="图 8">  </p><p>点击下拉菜单，此时你的解释器那里应该是空的，如上图点3，按下图操作后就可以在上图位置选择解释器了</p><p><img src="/2022/07/18/%E5%9F%BA%E4%BA%8Eanaconda3+pycharm%E6%90%AD%E5%BB%BAtensorflow-gpu%E7%8E%AF%E5%A2%83/0dcbcd7e1dba0bae85fb5f18ae70e972d4fd3ca9c7c09f6f0c8c5f823aca9723.png" alt="图 9">  </p><p>打开后，在项目路径里新建demo.py文件，输入：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line"></span><br><span class="line">os.environ[&quot;TF_CPP_MIN_LOG_LEVEL&quot;] &#x3D; &#39;2&#39;</span><br><span class="line"></span><br><span class="line">import tensorflow as tf</span><br><span class="line"></span><br><span class="line">print(&#39;GPU&#39;, tf.test.is_gpu_available())</span><br><span class="line"></span><br><span class="line">a &#x3D; tf.constant(2.)</span><br><span class="line">b &#x3D; tf.constant(4.)</span><br><span class="line"></span><br><span class="line">print(a*b)</span><br></pre></td></tr></table></figure><p>此时往往需要等待下方配置文件加载（耗时较长）</p><p>加载完成后，右键选择运行或直接<code>ctrl+shift+F10</code>运行<br>得到如下结果则环境搭建宣告完成</p><p><img src="/2022/07/18/%E5%9F%BA%E4%BA%8Eanaconda3+pycharm%E6%90%AD%E5%BB%BAtensorflow-gpu%E7%8E%AF%E5%A2%83/b9f83cfeacdcc8dbc2d393a9fdaaa84b156b3269332bdc903a85114f34278a8a.png" alt="图 10">  </p><h3 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h3><p>芜湖！完成了，中间一开始因为版本问题最后总是多少有点不尽人意，后来换了2.0.0版本求稳，总算是有了一个满意的结果，照这个步骤一步一步来，基本也没什么问题了，出问题赶紧百度（小窍门是限定下时间一个月或一年内，稍微确保下时效性)</p><p><strong>最后，文章较长，谢谢阅读，呱唧呱唧</strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Deep-learning </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 深度学习 </tag>
+            
+            <tag> Tensorflow </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Warning: &lt;node&gt;Warning:Accessing non-existent property ‘xxx‘ of module exports inside circular dependency</title>
+      <link href="2022/06/29/Warning-Accessing-non-existent-property-%E2%80%98xxx%E2%80%98-of-module-exports-inside-circular-depen/"/>
+      <url>2022/06/29/Warning-Accessing-non-existent-property-%E2%80%98xxx%E2%80%98-of-module-exports-inside-circular-depen/</url>
+      
+        <content type="html"><![CDATA[<p>博客部署的过程中遇到了如题形式的几句报错反馈，但貌似并没有什么实质影响，但本着严谨<del>(强迫症?bushi)</del>的态度，还是到网上查了一下原因，多说是node版本问题，也因此了解到<code>nvm</code>工具（一个nodejs的版本管理工具，可以简单操作node版本的切换、安装、查看），接下来具体说下报错的解决方法吧：</p><h3 id="报错如下"><a href="#报错如下" class="headerlink" title="报错如下:"></a>报错如下:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(node:96123) Warning: Accessing non-existent property &#39;column&#39; of module exports inside circular dependency</span><br><span class="line">(node:96123) Warning: Accessing non-existent property &#39;filename&#39; of module exports inside circular dependency</span><br><span class="line">(node:96123) Warning: Accessing non-existent property &#39;lineno&#39; of module exports inside circular dependency</span><br><span class="line">(node:96123) Warning: Accessing non-existent property &#39;column&#39; of module exports inside circular dependency</span><br><span class="line">(node:96123) Warning: Accessing non-existent property &#39;filename&#39; of module exports inside circular dependency</span><br></pre></td></tr></table></figure><h3 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h3><p>放路径:<code>D:\Blog\node_modules\nib\node_modules\stylus\lib\nodes\index.js</code></p><p>D:\Blog是本地博客位置，顺着上方路径找到<code>index.js</code>文件，在其中加入以下代码，问题解决欸嘿(·ω&lt;)~</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">exports.lineno &#x3D; null;</span><br><span class="line">exports.column &#x3D; null;</span><br><span class="line">exports.filename &#x3D; null;</span><br></pre></td></tr></table></figure><hr><p>好久不用nvm感觉都有点生疏了，以后可能会写篇博客记下nvm的常用语句，不过直接使用<code>help</code>更方便，毕竟它使用起来并不复杂。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Debug </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>firefox浏览器在新建页面打开书签网站</title>
+      <link href="2022/06/27/firefox%E5%B0%8F%E6%96%B9%E6%B3%95/"/>
+      <url>2022/06/27/firefox%E5%B0%8F%E6%96%B9%E6%B3%95/</url>
+      
+        <content type="html"><![CDATA[<p>有没有过平时顺手点开收藏栏里的书签想查点东西，却不想把当前页面覆盖了的经历，就或多或少有点不太舒服吧，接下来一个小方法可以将firefox的书签设置成鼠标单击后在新建标签页打开：</p><h3 id="操作方法："><a href="#操作方法：" class="headerlink" title="操作方法："></a>操作方法：</h3><p>1.在地址栏输入<code>about:config</code>后回车，会弹出风险提示，选择接受。<br>2.在打开页面的搜索栏里输入<code>browser.tabs.loadBookmarksInTabs</code>。<br>3.默认是<code>false</code>,点击右侧切换按钮改为<code>true</code>就行了。</p><hr><p>如果不改，按住<code>ctrl</code>单击书签，或者按鼠标滚轮键点击书签，也可以在新建标签页打开书签，看个人习惯吧，我是改了设置的感觉比较方便。</p><p>Q.E.D🌠</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 方法 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>芜湖，搭建成功</title>
+      <link href="2022/06/26/%E8%8A%9C%E6%B9%96%EF%BC%8C%E6%90%AD%E5%BB%BA%E6%88%90%E5%8A%9F/"/>
+      <url>2022/06/26/%E8%8A%9C%E6%B9%96%EF%BC%8C%E6%90%AD%E5%BB%BA%E6%88%90%E5%8A%9F/</url>
+      
+        <content type="html"><![CDATA[<p>拖延什么的pass，但前言想不出写啥好，大雾，此处省略一千零一字。</p><h3 id="关于博客"><a href="#关于博客" class="headerlink" title="关于博客"></a>关于博客</h3><ul><li>跌跌撞撞的开始了前端学习，总归要有个记录历程的地方，顺便带点鞭策的意义，dalao辣么多，身为菜鸟还是to learn吧。</li><li>记录下遇到的问题，如果碰巧能对别人有帮助也不错，也方便回头回顾错误，嗯，不错。</li><li>锻炼锻炼笔记能力，毕竟是自学啊，希望能在这条路上走的远一点吧。</li><li>现在自己的博客还是挺单调的，嘛，慢慢来吧，之后试着添加点有趣的，文章也少，未免寒碜。</li></ul><h3 id="致自己"><a href="#致自己" class="headerlink" title="致自己"></a>致自己</h3><p>  道阻且长啊，也只有奋斗能给自己一份真实的安全感了。</p><p>  Q.E.D🌠</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Hexo </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="2022/04/25/hello-world/"/>
+      <url>2022/04/25/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Hexo </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>
